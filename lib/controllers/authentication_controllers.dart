@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:collegedate/authenticationScreen/login_page.dart';
 import 'package:collegedate/homeScreen/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -11,6 +13,8 @@ import 'package:collegedate/models/person.dart' as personModel;
 class AuthenticationController extends GetxController{
 
     static AuthenticationController authController = Get.find();
+
+    late Rx<User?> firebaseCurrentUser;
 
     late Rx<File?> pickedfile;
     File? get profileImage => pickedfile.value;
@@ -73,6 +77,7 @@ class AuthenticationController extends GetxController{
 
         //save user info to firestore database
       personModel.Person personInstance = await personModel.Person(
+        uid: FirebaseAuth.instance.currentUser!.uid,
         imageProfile: urlOfDownlodedImage,
         email: email,
         password: password,
@@ -101,5 +106,53 @@ class AuthenticationController extends GetxController{
 
     }
 
+ 
+ 
+    loginUser ( String emailUser , String passwordUser) async{
+
+
+      try{
+        await FirebaseAuth.instance.signInWithEmailAndPassword(email: emailUser, password: passwordUser);
+
+        Get.snackbar("Login Successfull", "You are logged-in Successfully");
+
+        Get.to(HomeScreen());
+
+      } catch(errorMsg){
+
+        Get.snackbar('Login Failed', "Error occured : $errorMsg");
+      }
+
+    }
+
+    checkifUserIsLoggedIn( User? currentUser ){
+
+      if( currentUser == null  ){
+
+        Get.to(LoginScreen());
+
+      } else{
+
+        Get.to(HomeScreen());
+
+      }
+
+      
+      
+      
+    }
+
+    @override
+  void onReady() {
+    // TODO: implement onReady
+    super.onReady();
+
+
+  firebaseCurrentUser = Rx<User?>(FirebaseAuth.instance.currentUser);
+  firebaseCurrentUser.bindStream(FirebaseAuth.instance.authStateChanges());
+
+  ever(firebaseCurrentUser, checkifUserIsLoggedIn);
+
+  }
 
 }

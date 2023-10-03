@@ -1,4 +1,5 @@
 import 'package:collegedate/authenticationScreen/registration_screen.dart';
+import 'package:collegedate/controllers/authentication_controllers.dart';
 import 'package:collegedate/widgets/custom_text_field_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,6 +15,7 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailtexteditingController = TextEditingController();
   TextEditingController passwordtexteditingController = TextEditingController();
   bool showProgressBar = false;
+  var controllerAuth = AuthenticationController.authController;
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +70,24 @@ class _LoginScreenState extends State<LoginScreen> {
                   borderRadius: BorderRadius.all(Radius.circular(12))
                  ),
                  child: InkWell(
-                  onTap: (){
+                  onTap: () async{
+
+
+                    if( emailtexteditingController.text.trim().isNotEmpty && passwordtexteditingController.text.trim().isNotEmpty){
+
+                      setState(() {
+                        showProgressBar = true;
+                      });
+
+                    await  controllerAuth.loginUser(emailtexteditingController.text.trim(), passwordtexteditingController.text.trim());
+
+                       setState(() {
+                        showProgressBar = false;
+                      });
+
+                    } else{
+                      Get.snackbar("Credentials Missing", "Please fill all the fields");
+                    }
 
                   },
                   child: const Center(
