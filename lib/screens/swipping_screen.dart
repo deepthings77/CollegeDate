@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collegedate/controllers/profile_controller.dart';
 import 'package:collegedate/global.dart';
+import 'package:collegedate/screens/user_details.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -13,7 +14,7 @@ class SwippingScreen extends StatefulWidget {
 
 class _SwippingScreenState extends State<SwippingScreen> {
   ProfileController profileController = Get.put(ProfileController());
- late String senderName;
+  String senderName = '';
 
   readCurrentUserData() async {
 
@@ -68,7 +69,13 @@ class _SwippingScreenState extends State<SwippingScreen> {
                     ),
                     Spacer(),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+
+                        profileController.viewSendViewreceieved(eachProfileInfo.uid.toString(), senderName);
+
+                        Get.to(UserDetailsScreen(userId: eachProfileInfo.uid.toString(),));
+
+                      },
                       child: Column(
                         children: [
                           Text(
@@ -111,7 +118,7 @@ class _SwippingScreenState extends State<SwippingScreen> {
 
                             profileController.favouriteSendFavouritereceieved(eachProfileInfo.uid.toString(), senderName);
 
-
+                            Get.to(UserDetailsScreen( userId: eachProfileInfo.uid.toString(),));
 
                           },
                           child: Image.asset(
@@ -120,7 +127,13 @@ class _SwippingScreenState extends State<SwippingScreen> {
                           ),
                         ),
                         GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+
+
+                          profileController.likeSendLikereceieved(eachProfileInfo.uid.toString(), senderName);
+
+
+                          },
                           child: Image.asset(
                             "images/lover.png",
                             width: 60,

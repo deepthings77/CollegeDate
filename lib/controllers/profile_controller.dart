@@ -45,10 +45,10 @@ class ProfileController extends GetxController {
 
       await FirebaseFirestore.instance
           .collection("users")
-          .doc(currentUserId)
+          .doc(currentUserId) //change
           .collection('favouriteSent')
-          .doc(currentUserId)
-          .get();
+          .doc(toUserId)
+          .delete();
     } else {
       await FirebaseFirestore.instance
           .collection("users")
@@ -59,10 +59,80 @@ class ProfileController extends GetxController {
 
       await FirebaseFirestore.instance
           .collection("users")
-          .doc(currentUserId)
+          .doc(currentUserId) //change
           .collection('favouriteSent')
-          .doc(currentUserId)
+          .doc(toUserId)
           .set({});
     }
+    update();
   }
+
+  likeSendLikereceieved(String toUserId, String senderName) async {
+    var document = await FirebaseFirestore.instance
+        .collection("users")
+        .doc(toUserId)
+        .collection('likeRecieved')
+        .doc(currentUserId)
+        .get();
+//if like already exist
+    if (document.exists) {
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(toUserId)
+          .collection('likeRecieved')
+          .doc(currentUserId)
+          .delete();
+
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(currentUserId) //change
+          .collection('likeSent')
+          .doc(toUserId)
+          .delete();
+    } else {
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(toUserId)
+          .collection('likeRecieved')
+          .doc(currentUserId)
+          .set({});
+
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(currentUserId) //change
+          .collection('likeSent')
+          .doc(toUserId)
+          .set({});
+    }
+    update();
+  }
+  viewSendViewreceieved(String toUserId, String senderName) async {
+    var document = await FirebaseFirestore.instance
+        .collection("users")
+        .doc(toUserId)
+        .collection('viewRecieved')
+        .doc(currentUserId)
+        .get();
+//if like already exist
+    if (document.exists) {
+      print("already in view list");
+    } else {
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(toUserId)
+          .collection('viewRecieved')
+          .doc(currentUserId)
+          .set({});
+
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(currentUserId) //change
+          .collection('viewSent')
+          .doc(toUserId)
+          .set({});
+    }
+    update();
+  }
+   
 }
+

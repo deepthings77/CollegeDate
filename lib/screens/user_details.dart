@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:collegedate/accountScreenSetting/account_screen_setting.dart';
+import 'package:collegedate/global.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slider/carousel.dart';
+import 'package:get/get.dart';
 
 class UserDetailsScreen extends StatefulWidget {
   String? userId;
@@ -76,17 +79,34 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
             ),
           ),
           centerTitle: true,
+           automaticallyImplyLeading: widget.userId== currentUserId ?  false : true,
           actions: [
-            IconButton(
+            widget.userId == currentUserId ?
+           Row(
+            children: [
+               IconButton(
+                onPressed: () {
+                  Get.to(AccountSettingScreen());
+                },
+                icon: const Icon(
+                  Icons.edit,
+                  size: 30,
+                ),
+                ) ,
+               IconButton(
                 onPressed: () {
                   FirebaseAuth.instance.signOut();
                 },
                 icon: Icon(
                   Icons.logout,
                   size: 30,
-                ))
-          ],
-          automaticallyImplyLeading: false,
+                ),
+                ) ,
+            ],
+           ) : Container(),
+          ]
+       
+         
         ),
         body: SingleChildScrollView(
           child: Padding(

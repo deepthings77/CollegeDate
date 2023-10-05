@@ -27,7 +27,7 @@ class _FavouriteSendreceievedState extends State<FavouriteSendreceieved> {
       for (int i = 0; i < favouriteSentDocument.docs.length; i++) {
         favouriteSentList.add(favouriteSentDocument.docs[i].id);
       }
-
+       print("favouriteSentList List= " + favouriteSentList.toString());
       getKeysDataFromCollection(favouriteSentList);
     } else {
       var favouriteRecievedDocument = await FirebaseFirestore.instance
@@ -39,6 +39,8 @@ class _FavouriteSendreceievedState extends State<FavouriteSendreceieved> {
       for (int i = 0; i < favouriteRecievedDocument.docs.length; i++) {
         favouriteRecievedList.add(favouriteRecievedDocument.docs[i].id);
       }
+
+      print("favouriteRecievedList List= " + favouriteRecievedList.toString());
       getKeysDataFromCollection(favouriteRecievedList);
     }
   }
@@ -58,6 +60,7 @@ class _FavouriteSendreceievedState extends State<FavouriteSendreceieved> {
     setState(() {
       favouriteList;
     });
+    print("favourite List= " + favouriteList.toString());
   }
   
   @override
@@ -87,7 +90,7 @@ class _FavouriteSendreceievedState extends State<FavouriteSendreceieved> {
                     favouriteList = [];
 
                     setState(() {
-                      isFavouriteClicked == true;
+                      isFavouriteClicked = true;
                     });
 
                     getfavouriteListKey();
@@ -95,10 +98,10 @@ class _FavouriteSendreceievedState extends State<FavouriteSendreceieved> {
                   child: Text(
                     "My Favourites",
                     style: TextStyle(
-                        color: isFavouriteClicked ? Colors.grey : Colors.white,
+                        color: isFavouriteClicked ? Colors.white : Colors.grey,
                         fontWeight: isFavouriteClicked
-                            ? FontWeight.normal
-                            : FontWeight.bold,
+                            ? FontWeight.bold
+                            : FontWeight.normal,
                         fontSize: 14),
                   )),
               const Text(
@@ -118,7 +121,7 @@ class _FavouriteSendreceievedState extends State<FavouriteSendreceieved> {
                     favouriteList = [];
 
                     setState(() {
-                      isFavouriteClicked == false;
+                      isFavouriteClicked = false;
                     });
 
                     getfavouriteListKey();
@@ -126,10 +129,10 @@ class _FavouriteSendreceievedState extends State<FavouriteSendreceieved> {
                   child: Text(
                     "I'm their favourite",
                     style: TextStyle(
-                        color: isFavouriteClicked ? Colors.white : Colors.grey,
+                        color: isFavouriteClicked ? Colors.grey : Colors.white,
                         fontWeight: isFavouriteClicked
-                            ? FontWeight.bold
-                            : FontWeight.normal,
+                            ? FontWeight.normal
+                            : FontWeight.bold,
                         fontSize: 14),
                   )),
             ],
@@ -150,12 +153,18 @@ class _FavouriteSendreceievedState extends State<FavouriteSendreceieved> {
                 children: List.generate(favouriteList.length, (index) {
                   return GridTile(
                     child: Padding(
-                      padding: EdgeInsets.all(2),
+                      padding: const EdgeInsets.all(2),
                       child: Card(
                         color: Colors.blue.shade200,
                         child: GestureDetector(
                           onTap: () {},
                           child: DecoratedBox(
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image: NetworkImage(
+                                        favouriteList[index]["imageProfile"]),
+                                    fit: BoxFit.cover),
+                              ),
                               child:  Padding(
                                 padding: const EdgeInsets.all(8),
                                 child: Center(
@@ -170,7 +179,7 @@ class _FavouriteSendreceievedState extends State<FavouriteSendreceieved> {
                                               "  #  " +
                                               favouriteList[index]["age"]
                                                   .toString(),
-                                          style: TextStyle(
+                                          style:  TextStyle(
                                             overflow: TextOverflow.ellipsis,
                                             color: Colors.white,
                                             fontSize: 16,
@@ -201,12 +210,6 @@ class _FavouriteSendreceievedState extends State<FavouriteSendreceieved> {
                                     ],
                                   ),
                                 ),
-                              ),
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    image: NetworkImage(
-                                        favouriteList[index]["imageProfile"]),
-                                    fit: BoxFit.cover),
                               )),
                         ),
                       ),

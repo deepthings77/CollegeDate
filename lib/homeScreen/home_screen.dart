@@ -4,6 +4,7 @@ import 'package:collegedate/screens/swipping_screen.dart';
 import 'package:collegedate/screens/user_details.dart';
 import 'package:collegedate/screens/video_chat.dart';
 import 'package:collegedate/screens/view_sent_recieved.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
     SwippingScreen(),
     ViewSentRecieved(),
     FavouriteSendreceieved(),
-    LikeSendRecievedScreen(),
+    LikeSendreceieved(),
     UserDetailsScreen( userId: FirebaseAuth.instance.currentUser!.uid,),
     VideoChatScreen(),
   ];
