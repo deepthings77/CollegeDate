@@ -140,7 +140,11 @@ class _SwippingScreenState extends State<SwippingScreen> {
                           ),
                         ),
                         GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+
+                          
+
+                          },
                           child: Image.asset(
                             "images/speak.png",
                             width: 60,

@@ -16,7 +16,7 @@ void main() async{
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
+ 
   
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: Colors.black
       ),
-      home: LoginScreen(),
+      home: const LoginScreen(),
     );
   }
 }
